@@ -69,11 +69,13 @@ namespace Voting.Logic {
             }
         }
 
-        public async Task UpdateVoteCount(int candidateId) {
+        public async Task<int> UpdateVoteCount(int candidateId) {
             try {
                 var candidate = await _dbContext.Candidate.SingleAsync(x => x.CandidateId == candidateId);
                 candidate.Votes = candidate.Votes == null ? 1 : (((int)candidate.Votes) + 1);
                 await _dbContext.SaveChangesAsync();
+                var voteCount = candidate.Votes.Value;
+                return voteCount;
             } catch (Exception ex) {
                 throw ExceptionHelper.ProcessException(ex);
             }

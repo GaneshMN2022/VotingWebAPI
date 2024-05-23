@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Voting.DB;
 using Voting.DTO;
 using Voting.Logic;
+using WebSocketManager = Voting.Logic.Socket.WebSocketManager;
 
 namespace Voting.Controllers {
     [ApiController]
@@ -10,9 +11,9 @@ namespace Voting.Controllers {
     [EnableCors("AllowAllHeaders")]
     public class PoolingController : ControllerBase {
         private readonly PoolingLogic _poolingLogic;
-        public PoolingController(IVotingDBContext votingDBContext) 
+        public PoolingController(IVotingDBContext votingDBContext, WebSocketManager webSocketManager) 
         {
-            _poolingLogic = new PoolingLogic(votingDBContext);
+            _poolingLogic = new PoolingLogic(votingDBContext, webSocketManager);
         }
 
         [HttpPost]
